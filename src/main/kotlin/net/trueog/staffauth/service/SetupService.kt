@@ -57,7 +57,6 @@ class SetupService(
 
         val details = SetupStage.AwaitingMinecraftCheck(
             invite.invitedUserId, SetupStage.Details(
-                detailsDto.email,
                 passwordEncoderService.encode(
                     detailsDto.password
                 )!!
@@ -133,7 +132,6 @@ class SetupService(
         // If the user can't be found, that must mean the user was deleted, and as such, the invite is invalid
         val user = userRepository.findById(setupStage.userId) ?: throw InvalidInviteException()
         val setUpUser = user.copy(
-            email = setupStage.details.email,
             passwordHash = setupStage.details.passwordHash,
             totpSecret = setupStage.totpSecret
         )

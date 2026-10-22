@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotBlank
 @Introspected
 @Serdeable
 data class DetailsDto(
-    @field:NotBlank val email: String,
     @field:NotBlank val password: String,
     @field:NotBlank val token: String
 )

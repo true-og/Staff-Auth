@@ -6,5 +6,5 @@ sealed class SetupStage {
     data class AwaitingTotpVerify(val userId: Long, val details: Details, val totpSecret: String) : SetupStage()
     data class AwaitingFinalize(val userId: Long, val details: Details, val totpSecret: String) : SetupStage()
 
-    data class Details(val email: String, val passwordHash: String)
+    data class Details(val passwordHash: String)
 }
