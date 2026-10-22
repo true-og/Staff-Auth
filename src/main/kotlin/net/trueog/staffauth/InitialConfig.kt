@@ -28,6 +28,9 @@ class InitialConfig(
     @Value($$"${initialSetup.adminUuid:}")
     private var adminUuid: UUID? = null
 
+    @Value($$"${initialSetup.adminEmail:}")
+    private var adminEmail: String? = null
+
     @Value($$"${frontend.host}")
     private lateinit var frontendHost: String
 
@@ -40,9 +43,13 @@ class InitialConfig(
                 log.error("Not set up and initialSetup.adminUuid is not set or invalid, exiting...")
                 exitProcess(1)
             }
+            if (adminEmail == null) {
+                log.error("Not set up and initialSetup.adminEmail is not set or invalid, exiting...")
+                exitProcess(1)
+            }
             inviteRepository.deleteAll()
             userRepository.deleteAll()
-            val user = userRepository.save(User(null, Role.ADMIN, adminUuid!!, null, null, false))
+            val user = userRepository.save(User(adminEmail, Role.ADMIN, adminUuid!!, null, null, false))
             val invite = inviteService.create(CreateInviteDto(user.id!!))
             log.info("Initial setup, created invite for admin user: ${URI(frontendHost).resolve("/setup?token=${invite.token}")}")
         } else if (adminUuid != null) {
